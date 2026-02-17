@@ -1,46 +1,48 @@
-import { useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Layout from './components/Layout'
+import Login from './pages/Login'
+import Home from './pages/Home'
+import Apply from './pages/Apply'
+import ApplyStandard from './pages/ApplyStandard'
+import ApplyQuick from './pages/ApplyQuick'
+import Dashboard from './pages/Dashboard'
+import Analytics from './pages/Analytics'
+import ApplicationDetail from './pages/ApplicationDetail'
+
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem('token')
+  if (!token) return <Navigate to="/login" replace />
+  return children
+}
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home')
-
   return (
-    <div className="app">
-      <header>
-        <h1>Credit Risk Assessment Platform</h1>
-        <nav>
-          <button
-            className={activeTab === 'home' ? 'active' : ''}
-            onClick={() => setActiveTab('home')}
-          >
-            Home
-          </button>
-          <button
-            className={activeTab === 'about' ? 'active' : ''}
-            onClick={() => setActiveTab('about')}
-          >
-            About
-          </button>
-        </nav>
-      </header>
-      <main>
-        {activeTab === 'home' && (
-          <section>
-            <h2>Welcome</h2>
-            <p>AI-powered credit risk assessment for SMB loan applications.</p>
-            <div className="card">
-              <h3>✓ Deployed Successfully</h3>
-              <p>Your application is running on AWS Amplify.</p>
-            </div>
-          </section>
-        )}
-        {activeTab === 'about' && (
-          <section>
-            <h2>About</h2>
-            <p>This platform provides automated risk scoring and analytics.</p>
-          </section>
-        )}
-      </main>
-      <footer>© Credit Risk Platform</footer>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="apply" element={<Apply />} />
+        <Route path="apply/standard" element={<ApplyStandard />} />
+        <Route path="apply/quick" element={<ApplyQuick />} />
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="application/:id" element={<ApplicationDetail />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }

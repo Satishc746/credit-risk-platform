@@ -1,6 +1,15 @@
 # Credit Risk Assessment Platform
 
-Simple React app deployed to AWS Amplify.
+AI-powered credit risk assessment for SMB loan applications.
+
+## Features
+
+- **Home** – Landing page with Apply and Login
+- **Apply** – Standard (full form) or Quick application
+- **Login** – Analyst login (admin / admin123)
+- **Dashboard** – View all applications with risk scores
+- **Analytics** – Portfolio risk distribution charts
+- **Application Detail** – View full risk assessment with feature importance
 
 ## Run locally
 
@@ -8,6 +17,8 @@ Simple React app deployed to AWS Amplify.
 npm install
 npm run dev
 ```
+
+Open http://localhost:5173
 
 ## Build
 
